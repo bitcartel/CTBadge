@@ -6,10 +6,9 @@
 //  Copyright (c) 2007 Chad Weider.
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
 //
-//  Version: 1.5
+//  Version: 2.0
 
 #import <Cocoa/Cocoa.h>
-#import "CTGradient.h"
 
 extern const float CTLargeBadgeSize;
 extern const float CTSmallBadgeSize;

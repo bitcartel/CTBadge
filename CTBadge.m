@@ -6,7 +6,7 @@
 //  Copyright (c) 2007 Chad Weider.
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
 //
-//  Version: 1.5
+//  Version: 2.0
 
 #import "CTBadge.h"
 
@@ -15,18 +15,11 @@ const float CTSmallBadgeSize = 23.;
 const float CTLargeLabelSize = 24.;
 const float CTSmallLabelSize = 11.;
 
-static NSString *stringForValue(unsigned value)
-  {
-  if(value < 100000)
-	return [NSString stringWithFormat:@"%u", value];
-  else //give infinity
-	return [NSString stringWithUTF8String:"\xe2\x88\x9e"];
-  }
-
 @interface CTBadge (Private)
 - (NSImage *)badgeMaskOfSize:(float)size length:(unsigned)length;				//return a badge with height of <size> to fit <length> characters
 - (NSAttributedString *)labelForString:(NSString *)string size:(unsigned)size;	//returns appropriately attributed label string (not autoreleased)
-- (CTGradient *)badgeGradient;													//gradient used to fill badge mask
+- (NSString *)stringForValue:(unsigned)value;									//returns string for display (replaces large numbers with infinity)
+- (NSGradient *)badgeGradient;													//gradient used to fill badge mask
 @end
 
 @implementation CTBadge
@@ -107,7 +100,7 @@ static NSString *stringForValue(unsigned value)
 #pragma mark Drawing
 - (NSImage *)smallBadgeForValue:(unsigned)value		//does drawing in it's own special way
   {
-  return [self badgeOfSize:CTSmallBadgeSize forString:stringForValue(value)];
+  return [self badgeOfSize:CTSmallBadgeSize forString:[self stringForValue:value]];
   }
 
 - (NSImage *)smallBadgeForString:(NSString *)string
@@ -117,7 +110,7 @@ static NSString *stringForValue(unsigned value)
 
 - (NSImage *)largeBadgeForValue:(unsigned)value
   {
-  return [self badgeOfSize:CTLargeBadgeSize forString:stringForValue(value)];
+  return [self badgeOfSize:CTLargeBadgeSize forString:[self stringForValue:value]];
   }
 
 - (NSImage *)largeBadgeForString:(NSString *)string
@@ -127,7 +120,7 @@ static NSString *stringForValue(unsigned value)
 
 - (NSImage *)badgeOfSize:(float)size forValue:(unsigned)value
   {
-  return [self badgeOfSize:(float)size forString:stringForValue(value)];
+  return [self badgeOfSize:(float)size forString:[self stringForValue:value]];
   }
 
 - (NSImage *)badgeOfSize:(float)size forString:(NSString *)string
@@ -156,7 +149,7 @@ static NSString *stringForValue(unsigned value)
   NSImage *badgeImage;	//this the image with the gradient fill
   NSImage *badgeMask ;	//we nock out this mask from the gradient
   
-  CTGradient *badgeGradient = [self badgeGradient];
+  NSGradient *badgeGradient = [self badgeGradient];
   
   float shadowOpacity,
 		shadowOffset,
@@ -191,7 +184,7 @@ static NSString *stringForValue(unsigned value)
 														badgeSize.height + 2*shadowBlurRadius - shadowOffset + (size <= CTSmallBadgeSize))];	//space when small
   
   [badgeImage lockFocus];
-	[badgeGradient fillRect:NSMakeRect(origin.x, origin.y, floorf(badgeSize.width), floorf(badgeSize.height)) angle:angle];				//apply the gradient
+	[badgeGradient drawInRect:NSMakeRect(origin.x, origin.y, floorf(badgeSize.width), floorf(badgeSize.height)) angle:angle];			//apply the gradient
 	[badgeMask compositeToPoint:origin operation: NSCompositeDestinationAtop];															//knock out the badge area
 	[label drawInRect:NSMakeRect(origin.x+floorf((badgeSize.width-labelSize.width)/2), origin.y+floorf((badgeSize.height-labelSize.height)/2), badgeSize.width, labelSize.height)];	//draw label in center
   [badgeImage unlockFocus];
@@ -248,24 +241,24 @@ static NSString *stringForValue(unsigned value)
 
 - (NSImage *)badgeOverlayImageForValue:(unsigned)value insetX:(float)dx y:(float)dy
   {
-  return [self badgeOverlayImageForString:stringForValue(value) insetX:dx y:dy];
+  return [self badgeOverlayImageForString:[self stringForValue:value] insetX:dx y:dy];
   }
 
 - (void)badgeApplicationDockIconWithValue:(unsigned)value insetX:(float)dx y:(float)dy
   {
-  [self badgeApplicationDockIconWithString:stringForValue(value) insetX:dx y:dy];
+  [self badgeApplicationDockIconWithString:[self stringForValue:value] insetX:dx y:dy];
   }
 #pragma mark -
 
 
 #pragma mark Misc.
-- (CTGradient *)badgeGradient
+- (NSGradient *)badgeGradient
   {
-  CTGradient *aGradient = [CTGradient gradientWithBeginningColor:[self badgeColor] endingColor:[[self badgeColor] shadowWithLevel:(1./3.)]];
+  NSGradient *aGradient = [[NSGradient alloc] initWithColorsAndLocations:[self badgeColor], 0.0, 
+																		 [self badgeColor], 1/3., 
+																		 [[self badgeColor] shadowWithLevel:1/3.], 1.0, nil];
   
-  aGradient = [aGradient addColorStop:[self badgeColor] atPosition:(1./3.)];
-  
-  return aGradient;
+  return [aGradient autorelease];
   }
 
 - (NSAttributedString *)labelForString:(NSString *)label size:(unsigned)size
@@ -291,6 +284,14 @@ static NSString *stringForValue(unsigned value)
   [attributes release];
   
   return attributedString;
+  }
+
+- (NSString *)stringForValue:(unsigned)value
+  {
+  if(value < 100000)
+	return [NSString stringWithFormat:@"%u", value];
+  else //give infinity
+	return [NSString stringWithUTF8String:"\xe2\x88\x9e"];
   }
 
 - (NSImage *)badgeMaskOfSize:(float)size length:(unsigned)length;

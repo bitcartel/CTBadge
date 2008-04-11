@@ -18,7 +18,6 @@
 		A882E3A3099D2B9F0087EB3A /* CTBadge_5.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A882E39F099D2B9F0087EB3A /* CTBadge_5.pdf */; };
 		A89DFA1709707D9F0067B6C3 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = A89DFA1409707D9F0067B6C3 /* MainController.m */; };
 		A89DFA1809707D9F0067B6C3 /* CTBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = A89DFA1509707D9F0067B6C3 /* CTBadge.m */; };
-		A8DF07200994A83400661FC6 /* CTGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = A8DF071F0994A83400661FC6 /* CTGradient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +39,6 @@
 		A89DFA1409707D9F0067B6C3 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
 		A89DFA1509707D9F0067B6C3 /* CTBadge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CTBadge.m; sourceTree = "<group>"; };
 		A89DFA1609707D9F0067B6C3 /* CTBadge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CTBadge.h; sourceTree = "<group>"; };
-		A8DF071E0994A83400661FC6 /* CTGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CTGradient.h; sourceTree = "<group>"; };
-		A8DF071F0994A83400661FC6 /* CTGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CTGradient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +66,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A83817A9097E940700EAAB56 /* Carbon.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -77,7 +75,6 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A83817A9097E940700EAAB56 /* Carbon.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
@@ -110,8 +107,6 @@
 			children = (
 				A89DFA1309707D9F0067B6C3 /* MainController.h */,
 				A89DFA1409707D9F0067B6C3 /* MainController.m */,
-				A8DF071E0994A83400661FC6 /* CTGradient.h */,
-				A8DF071F0994A83400661FC6 /* CTGradient.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -210,7 +205,6 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				A89DFA1709707D9F0067B6C3 /* MainController.m in Sources */,
 				A89DFA1809707D9F0067B6C3 /* CTBadge.m in Sources */,
-				A8DF07200994A83400661FC6 /* CTGradient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,10 +249,6 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
@@ -271,20 +261,24 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Release;
 		};
