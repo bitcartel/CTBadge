@@ -17,7 +17,7 @@ const float CTLargeLabelSize = 24.;
 const float CTSmallLabelSize = 11.;
 
 @interface CTBadge (Private)
-- (NSImage *)badgeMaskOfSize:(float)size length:(unsigned)length;				//return a badge with height of <size> to fit <length> characters
+- (NSImage *)badgeMaskOfSize:(float)size length:(NSUInteger)length;				//return a badge with height of <size> to fit <length> characters
 - (NSAttributedString *)labelForString:(NSString *)string size:(unsigned)size;	//returns appropriately attributed label string (not autoreleased)
 - (NSString *)stringForValue:(unsigned)value;									//returns string for display (replaces large numbers with infinity)
 - (NSGradient *)badgeGradient;													//gradient used to fill badge mask
@@ -295,7 +295,7 @@ const float CTSmallLabelSize = 11.;
 	return [NSString stringWithUTF8String:"\xe2\x88\x9e"];
   }
 
-- (NSImage *)badgeMaskOfSize:(float)size length:(unsigned)length;
+- (NSImage *)badgeMaskOfSize:(float)size length:(NSUInteger)length;
   {
   NSImage *badgeMask;
   
